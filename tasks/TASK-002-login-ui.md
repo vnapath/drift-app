@@ -29,3 +29,14 @@ Build the login and signup screen UI that connects to the auth infrastructure.
 - Verify sign up can create a Supabase auth user.
 - Verify successful sign in leaves the login screen.
 - Verify buttons are disabled while loading.
+
+## Completion Checklist
+
+- [x] Added email and password fields.
+- [x] Added sign in and sign up mode controls.
+- [x] Connected form submission to auth infrastructure.
+- [x] Added loading state during auth requests.
+- [x] Added local validation and readable error handling.
+- [x] Disabled duplicate submissions while loading.
+- [x] Ran `npx tsc --noEmit`.
+- [x] Ran `npx expo export --platform web`.
