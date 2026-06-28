@@ -15,6 +15,7 @@ import { ThemedView } from '@/components/themed-view';
 import { MaxContentWidth, Spacing } from '@/constants/theme';
 import { useAuth } from '@/hooks/use-auth';
 import { useTheme } from '@/hooks/use-theme';
+import { getErrorMessage } from '@/lib/errors';
 import { appRoutes, type AppRoutePath } from '@/navigation/routes';
 import { getProfileById } from '@/services/profile-service';
 import type { Profile } from '@/types/database';
@@ -77,7 +78,7 @@ export function HomeScreen() {
         }
       } catch (loadError) {
         if (isMounted) {
-          setError(loadError instanceof Error ? loadError.message : 'Could not load profile.');
+          setError(getErrorMessage(loadError, 'Could not load profile.'));
         }
       } finally {
         if (isMounted) {
@@ -102,7 +103,7 @@ export function HomeScreen() {
     try {
       await signOut();
     } catch (signOutError) {
-      setError(signOutError instanceof Error ? signOutError.message : 'Could not log out.');
+      setError(getErrorMessage(signOutError, 'Could not log out.'));
       setSigningOut(false);
     }
   }

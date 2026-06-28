@@ -17,6 +17,7 @@ import { ThemedView } from '@/components/themed-view';
 import { MaxContentWidth, Spacing } from '@/constants/theme';
 import { useAuth } from '@/hooks/use-auth';
 import { useTheme } from '@/hooks/use-theme';
+import { getErrorMessage } from '@/lib/errors';
 import { appRoutes } from '@/navigation/routes';
 import { createProfile, getUsernameAvailable } from '@/services/profile-service';
 
@@ -101,7 +102,7 @@ export function ProfileSetupScreen() {
       await refreshProfile();
       router.replace(appRoutes.home);
     } catch (saveError) {
-      setError(saveError instanceof Error ? saveError.message : 'Could not save your profile.');
+      setError(getErrorMessage(saveError, 'Could not save your profile.'));
     } finally {
       setSubmitting(false);
     }

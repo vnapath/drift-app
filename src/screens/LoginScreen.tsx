@@ -16,6 +16,7 @@ import { ThemedView } from '@/components/themed-view';
 import { MaxContentWidth, Spacing } from '@/constants/theme';
 import { useAuth } from '@/hooks/use-auth';
 import { useTheme } from '@/hooks/use-theme';
+import { getErrorMessage } from '@/lib/errors';
 
 type AuthMode = 'sign-in' | 'sign-up';
 
@@ -55,7 +56,7 @@ export function LoginScreen() {
         await signUp(trimmedEmail, password);
       }
     } catch (submitError) {
-      setError(submitError instanceof Error ? submitError.message : 'Authentication failed.');
+      setError(getErrorMessage(submitError, 'Authentication failed.'));
     } finally {
       setSubmitting(false);
     }
