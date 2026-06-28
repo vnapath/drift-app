@@ -31,3 +31,15 @@ Create the shared authentication foundation for Drift without placing Supabase a
 - Sign in and confirm auth state updates.
 - Sign out and confirm auth state clears.
 - Restart the app and confirm session persistence.
+
+## Completion Checklist
+
+- [x] Added `AuthProvider` and typed `useAuth` hook.
+- [x] Configured Supabase auth session persistence with AsyncStorage.
+- [x] Tracked `session`, `user`, `loading`, and `profileExists` state.
+- [x] Added `signIn`, `signUp`, and `signOut` auth functions.
+- [x] Added profile existence lookup through a service file.
+- [x] Added route guard logic in the root layout.
+- [x] Kept Login UI, Profile Setup UI, and Drift features out of scope.
+- [x] Ran `npx tsc --noEmit`.
+- [x] Ran `npx expo export --platform web`.
