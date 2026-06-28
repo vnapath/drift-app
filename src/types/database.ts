@@ -2,11 +2,14 @@ export type DriftStatus = 'floating' | 'delivered' | 'kept' | 'passed' | 'expire
 
 export type Profile = {
   id: string;
+  username: string;
   display_name: string;
+  bio: string | null;
   age: number | null;
   country: string | null;
-  bio: string | null;
+  avatar_url: string | null;
   created_at: string;
+  updated_at: string;
 };
 
 export type Drift = {
@@ -49,29 +52,43 @@ export type Database = {
     Tables: {
       profiles: {
         Row: Profile;
-        Insert: Omit<Profile, 'created_at'> & { created_at?: string };
-        Update: Partial<Omit<Profile, 'id' | 'created_at'>>;
+        Insert: Omit<Profile, 'created_at' | 'updated_at'> & {
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: Partial<Omit<Profile, 'id' | 'created_at' | 'updated_at'>> & {
+          updated_at?: string;
+        };
+        Relationships: [];
       };
       drifts: {
         Row: Drift;
         Insert: Omit<Drift, 'id' | 'created_at'> & { id?: string; created_at?: string };
         Update: Partial<Omit<Drift, 'id' | 'sender_id' | 'created_at'>>;
+        Relationships: [];
       };
       matches: {
         Row: Match;
         Insert: Omit<Match, 'id' | 'created_at'> & { id?: string; created_at?: string };
         Update: Partial<Omit<Match, 'id' | 'created_at'>>;
+        Relationships: [];
       };
       messages: {
         Row: Message;
         Insert: Omit<Message, 'id' | 'created_at'> & { id?: string; created_at?: string };
         Update: Partial<Omit<Message, 'id' | 'created_at'>>;
+        Relationships: [];
       };
       reports: {
         Row: Report;
         Insert: Omit<Report, 'id' | 'created_at'> & { id?: string; created_at?: string };
         Update: Partial<Omit<Report, 'id' | 'created_at'>>;
+        Relationships: [];
       };
     };
+    Views: Record<string, never>;
+    Functions: Record<string, never>;
+    Enums: Record<string, never>;
+    CompositeTypes: Record<string, never>;
   };
 };

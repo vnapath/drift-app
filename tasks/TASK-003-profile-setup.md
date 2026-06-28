@@ -29,3 +29,16 @@ Let authenticated users create their required app profile before entering the ma
 - Save a valid profile and confirm a row appears in Supabase.
 - Confirm the app redirects to Home after save.
 - Restart the app and confirm profile setup is skipped.
+
+## Completion Checklist
+
+- [x] Updated profile model to include `username`, `avatar_url`, and `updated_at`.
+- [x] Added profile setup form fields for username, display name, age, country, and bio.
+- [x] Added local username validation for required, lowercase, no spaces, and allowed characters.
+- [x] Added username availability check before save.
+- [x] Saved profile rows linked to the authenticated user id.
+- [x] Refreshed auth profile state after save.
+- [x] Redirected to Home after successful save.
+- [x] Kept Drift sending out of scope.
+- [x] Ran `npx tsc --noEmit`.
+- [x] Ran `npx expo export --platform web`.

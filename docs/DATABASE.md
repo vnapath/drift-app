@@ -10,6 +10,20 @@ Supabase Postgres is the system of record for profiles, drifts, matches, message
 - `messages`: chat messages within a match.
 - `reports`: safety reports tied to users, drifts, or matches.
 
+## Profiles
+
+Fields:
+
+- `id`: Supabase auth user id.
+- `username`: unique public handle.
+- `display_name`: user-facing name.
+- `bio`: short profile text.
+- `age`: optional age.
+- `country`: optional country.
+- `avatar_url`: optional profile image URL.
+- `created_at`: creation timestamp.
+- `updated_at`: last update timestamp.
+
 ## Auth Relationship
 
 `profiles.id` should match the Supabase auth user id. App queries should use the authenticated user id as the source of truth for ownership and permissions.
