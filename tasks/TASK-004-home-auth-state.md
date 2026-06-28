@@ -27,3 +27,15 @@ Show a useful authenticated Home screen that confirms the current user state and
 - Tap each navigation button and confirm routing.
 - Tap logout and confirm the login screen appears.
 - Restart the app and confirm the correct auth state route is shown.
+
+## Completion Checklist
+
+- [x] Added authenticated welcome greeting.
+- [x] Loaded and displayed the user's profile display name.
+- [x] Added Send Drift, Incoming Drift, Chats, and Profile cards.
+- [x] Added Settings section.
+- [x] Added logout button using `useAuth().signOut`.
+- [x] Wired cards to existing screens.
+- [x] Kept Drift logic out of scope.
+- [x] Ran `npx tsc --noEmit`.
+- [x] Ran `npx expo export --platform web`.

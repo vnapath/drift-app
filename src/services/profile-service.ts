@@ -1,5 +1,5 @@
 import { assertSupabaseConfigured, supabase } from '@/lib/supabase';
-import type { Database } from '@/types/database';
+import type { Database, Profile } from '@/types/database';
 
 type ProfileInsert = Database['public']['Tables']['profiles']['Insert'];
 
@@ -17,6 +17,22 @@ export async function getProfileExists(userId: string): Promise<boolean> {
   }
 
   return Boolean(data);
+}
+
+export async function getProfileById(userId: string): Promise<Profile | null> {
+  assertSupabaseConfigured();
+
+  const { data, error } = await supabase
+    .from('profiles')
+    .select('*')
+    .eq('id', userId)
+    .maybeSingle();
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
 }
 
 export async function getUsernameAvailable(username: string): Promise<boolean> {
