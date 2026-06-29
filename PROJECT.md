@@ -1,180 +1,556 @@
-# Drift — Project Specification
+# Drift Project Specification (Master Blueprint)
 
-## Product Vision
+## Purpose
 
-Drift is a mobile social app where users send short anonymous messages into the world. Another user can receive the message, choose to keep it, and start a chat — or pass it forward.
+This document is the master blueprint for Drift.
 
-The goal is to create meaningful, low-pressure conversations with strangers without copying Bottled directly.
+Its purpose is to guide the creation of a comprehensive `PROJECT.md` that becomes the single source of truth for the entire project.
 
-## MVP Goal
+The final `PROJECT.md` should be a production-quality engineering and product handbook suitable for onboarding senior engineers and AI coding agents.
 
-Build a working MVP where users can:
+---
 
-1. Sign up / log in
-2. Create a basic profile
-3. Send a Drift message
-4. Receive a random Drift
-5. Keep or pass the Drift
-6. Chat in real time after keeping a Drift
+# Product Overview
 
-## Tech Stack
+Drift is an adult social discovery platform where anonymous conversations begin before identities do.
 
-* React Native
-* Expo
-* TypeScript
-* Supabase
-* Supabase Auth
-* Supabase Realtime
-* Supabase Postgres
+Mission:
 
-## Core Screens
+> Someone out there is about to discover you.
 
-1. LoginScreen
-2. ProfileSetupScreen
-3. HomeScreen
-4. SendDriftScreen
-5. IncomingDriftScreen
-6. ChatListScreen
-7. ChatScreen
-8. ProfileScreen
+Core philosophy:
 
-## Core Database Tables
+> The excitement comes from not knowing.
 
-### profiles
+Conversation comes before identity.
 
-Stores user profile information.
+Curiosity comes before certainty.
 
-Fields:
+The application should encourage discovery rather than endless consumption.
 
-* id
-* display_name
-* age
-* country
-* bio
-* created_at
+---
 
-### drifts
+# Product Principles
 
-Stores anonymous messages sent by users.
+The following principles are permanent and must never be violated.
 
-Fields:
+- Curiosity First
+- Conversation Before Identity
+- Adults Decide the Tone
+- Calm Over Chaos
+- Safety Without Killing Freedom
+- Quality Over Quantity
+- Progressive Disclosure
+- Simplicity Wins
 
-* id
-* sender_id
-* content
-* status
-* current_receiver_id
-* created_at
+---
 
-Allowed status values:
+# Drift Is
 
-* floating
-* delivered
-* kept
-* passed
-* expired
+- Anonymous-first
+- Conversation-first
+- Mobile-first
+- Adult-focused
+- Privacy conscious
+- Calm
+- Curiosity-driven
 
-### matches
+---
 
-Stores accepted Drift connections.
+# Drift Is Not
 
-Fields:
+- A dating app
+- A swipe app
+- A follower platform
+- A popularity contest
+- An infinite social feed
+- A creator platform
 
-* id
-* drift_id
-* user_one
-* user_two
-* created_at
+---
 
-### messages
+# Product Decision Filter
 
-Stores chat messages.
+Every feature must answer at least one:
 
-Fields:
+- Does it increase curiosity?
+- Does it reduce friction?
+- Does it improve safety?
 
-* id
-* match_id
-* sender_id
-* content
-* created_at
+Every feature must also preserve:
 
-### reports
+> The excitement comes from not knowing.
 
-Stores safety reports.
+---
 
-Fields:
+# Target Tech Stack
 
-* id
-* reporter_id
-* reported_user_id
-* drift_id
-* match_id
-* reason
-* created_at
+- React Native
+- Expo
+- TypeScript
+- Supabase
+- PostgreSQL
+- Supabase Auth
+- Supabase Realtime
 
-## MVP Rules
+---
 
-* A user must have a profile before using the app.
-* A user can send a Drift with text only.
-* A Drift should not be delivered back to its sender.
-* If a receiver keeps a Drift, a match is created.
-* If a receiver passes a Drift, it becomes available again.
-* Chat is only available after a match is created.
-* Users should be able to log out.
+# Engineering Principles
 
-## Coding Standards
+- Strong typing
+- No `any`
+- Separation of concerns
+- Single responsibility
+- Mobile-first
+- Feature isolation
+- Services own backend communication
+- Hooks own business logic
+- Screens own presentation
+- Components remain reusable
+- Architecture should scale without major rewrites
 
-* Use TypeScript.
-* Avoid `any`.
-* Keep components small.
-* Put Supabase logic inside service files.
-* Keep screens focused on UI.
-* Use clear naming.
-* Make sure the app compiles after every major change.
+---
 
-## Folder Structure
+# Repository Architecture
 
-src/
-components/
-screens/
-navigation/
-services/
-hooks/
-types/
-constants/
-lib/
+The final documentation should define ownership and responsibilities for:
 
-## First Milestone
+- assets
+- docs
+- src
+- app
+- components
+- features
+- services
+- hooks
+- providers
+- navigation
+- constants
+- types
+- utils
+- lib
+- theme
+- tests
+- scripts
+- supabase
 
-Complete the following:
+---
 
-1. App runs in Expo
-2. Supabase client is configured
-3. User can sign up
-4. User can log in
-5. User can create a profile
-6. User can send a Drift
-7. Drift is saved in Supabase
+# Database
 
-## Second Milestone
+Document the complete architecture for:
 
-Complete:
+profiles
 
-1. User can receive a random Drift
-2. User can keep or pass the Drift
-3. Match is created when kept
-4. Users can chat in real time
+drifts
 
-## Future Features
+matches
 
-Not for MVP:
+messages
 
-* Voice Drifts
-* Image Drifts
-* Push notifications
-* AI conversation starters
-* Mood-based matching
-* Interest filters
-* Premium features
-* Admin dashboard
-* Moderation queue
+reports
+
+Future:
+
+notifications
+
+blocks
+
+user_settings
+
+interests
+
+premium
+
+analytics
+
+Include:
+
+- schema
+- relationships
+- indexes
+- RLS philosophy
+- migration strategy
+- scaling strategy
+
+---
+
+# Core Systems
+
+The final PROJECT.md must define the complete architecture for:
+
+Authentication
+
+Profile
+
+Drift Engine
+
+Distribution Engine
+
+Matching Engine
+
+Conversation Engine
+
+Notification Engine
+
+Safety Engine
+
+Moderation
+
+Reporting
+
+Blocking
+
+Realtime
+
+Future AI Matching
+
+---
+
+# Frontend
+
+Document:
+
+Navigation
+
+Routing
+
+State management
+
+Hooks
+
+Services
+
+Error handling
+
+Loading
+
+Animations
+
+Accessibility
+
+Design system
+
+Empty states
+
+Typography
+
+Color system
+
+---
+
+# Backend
+
+Document:
+
+Supabase
+
+Storage
+
+Edge Functions
+
+Realtime
+
+Authentication
+
+API contracts
+
+Service contracts
+
+Validation
+
+Rate limiting
+
+Logging
+
+Monitoring
+
+Performance
+
+Caching strategy
+
+---
+
+# Security
+
+Document:
+
+Authentication
+
+Authorization
+
+RLS
+
+Input validation
+
+Spam prevention
+
+Bot detection
+
+Abuse prevention
+
+Privacy
+
+Data ownership
+
+---
+
+# Engineering Handbook
+
+Document:
+
+Folder ownership
+
+Dependency direction
+
+Import rules
+
+Naming conventions
+
+File size recommendations
+
+Function size recommendations
+
+Testing strategy
+
+Git workflow
+
+Commit conventions
+
+PR rules
+
+Code review checklist
+
+Definition of Done
+
+Release checklist
+
+Deployment checklist
+
+---
+
+# Expand PROJECT.md into a comprehensive engineering handbook.
+
+Organize it naturally.
+
+Do not target a specific chapter count.
+
+Include every section required to completely document the project.
+
+Topics should include, but are not limited to:
+
+Executive Summary
+Mission
+Vision
+Founder Philosophy
+Business Strategy
+Product Principles
+User Psychology
+Emotional Design
+User Personas
+User Journey
+Information Architecture
+Navigation
+Design Language
+Repository Architecture
+Folder Ownership
+Frontend Architecture
+Backend Architecture
+State Management
+Services
+Hooks
+API Design
+Database Philosophy
+Database Schema
+RLS Strategy
+Authentication
+Profile System
+Drift Engine
+Distribution Engine
+Matching Engine
+Conversation Engine
+Notification Engine
+Safety
+Moderation
+Blocking
+Reporting
+Analytics
+Performance
+Accessibility
+Security
+Coding Standards
+Git Workflow
+Testing Strategy
+CI/CD
+Deployment
+Sprint Roadmap
+MVP Scope
+Future Roadmap
+Technical Debt Strategy
+Scaling Strategy
+Definition of Done
+Codex Operating Rules
+
+For every major section include, where appropriate:
+
+Purpose
+Responsibilities
+Design rationale
+Engineering implications
+Best practices
+Anti-patterns
+Trade-offs
+Examples
+Future evolution
+
+---
+
+# Product Design
+
+Document:
+
+User psychology
+
+Emotional design
+
+Product language
+
+Interaction design
+
+Notification philosophy
+
+Progressive disclosure
+
+Trust building
+
+---
+
+# MVP Scope
+
+Include the complete implementation roadmap.
+
+Sprint 1
+
+Foundation
+
+Sprint 2
+
+Authentication
+
+Sprint 3
+
+Profile
+
+Sprint 4
+
+Release Drift
+
+Sprint 5
+
+Incoming Drift
+
+Sprint 6
+
+Keep / Pass
+
+Sprint 7
+
+Conversation
+
+Sprint 8
+
+Realtime Chat
+
+Sprint 9
+
+Safety
+
+Sprint 10
+
+Polish
+
+Sprint 11
+
+Beta
+
+Sprint 12
+
+Launch Candidate
+
+Each sprint should include:
+
+Goals
+
+Features
+
+Architecture
+
+Acceptance criteria
+
+Testing requirements
+
+Risks
+
+Future improvements
+
+---
+
+# Future Roadmap
+
+Voice Drifts
+
+Image Drifts
+
+Video Drifts
+
+AI-assisted moderation
+
+AI conversation suggestions
+
+Travel Mode
+
+Interest-based discovery
+
+Premium
+
+Admin Dashboard
+
+Analytics
+
+Localization
+
+Web
+
+Desktop
+
+---
+
+# Codex Operating Rules
+
+Whenever implementing code:
+
+1. Read PROJECT.md first.
+2. Never violate product principles.
+3. Follow architecture.
+4. Update documentation when behavior changes.
+5. Keep TypeScript passing.
+6. Keep Expo export passing.
+7. Never invent product behavior.
+8. If documentation is ambiguous, stop and request clarification instead of guessing.
+
+---
+
+# Goal
+
+Expand this specification into a comprehensive `PROJECT.md` containing approximately 75–100 well-structured chapters.
+
+Each chapter should include:
+
+- Purpose
+- Design rationale
+- Engineering implications
+- Examples
+- Anti-patterns
+- Future considerations
+- Acceptance criteria where applicable
+
+The resulting document should be detailed enough that a senior engineer or AI coding agent can understand the project, architecture, product philosophy, and implementation strategy without additional guidance.

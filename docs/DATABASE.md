@@ -38,3 +38,9 @@ Drift status values: `floating`, `delivered`, `kept`, `passed`, `expired`.
 - A kept Drift creates a match.
 - A passed Drift becomes available again.
 - Chat messages require an existing match.
+
+## Future Safety And Expiration Support
+
+- Add `blocks` so reported users can be hidden automatically.
+- Add report-driven hiding for Drift content after misconduct reports.
+- Add `expires_at`, `delivered_at`, or equivalent delivery timing fields for the 48-hour Drift expiration rule.
