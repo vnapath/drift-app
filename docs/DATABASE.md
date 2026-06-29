@@ -47,7 +47,13 @@ Incoming Drift needs update access on `drifts` so a receiver can mark a floating
 ## Future Safety And Expiration Support
 
 - Add report-driven hiding for Drift content after misconduct reports.
-- Add `expires_at`, `delivered_at`, or equivalent delivery timing fields for the 48-hour Drift expiration rule.
+- Add server-side scheduled cleanup for the 48-hour Drift expiration rule.
+
+## Drift Expiration
+
+- `delivered_at`: when a Drift was delivered to a receiver.
+- `expires_at`: when a delivered Drift should move onward.
+- Delivered Drifts expire after 48 hours and return to `floating` if not kept or passed.
 
 ## Blocks
 

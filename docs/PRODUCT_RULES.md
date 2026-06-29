@@ -18,7 +18,8 @@ These decisions are source-of-truth product rules for current MVP work.
 
 - Drifts should expire after 48 hours in a receiver state.
 - Expired or timed-out Drifts should move onward and become available for someone else.
-- Database support should add `expires_at` or delivery timestamps before implementing expiration automation.
+- Delivered Drifts use `delivered_at` and `expires_at` timing fields.
+- Client-side discovery recycles expired delivered Drifts until a later server-side scheduled cleanup exists.
 
 ## Conversation
 

@@ -11,6 +11,8 @@ type CreateDriftInput = {
   content: string;
 };
 
+const DRIFT_EXPIRATION_HOURS = 48;
+
 export async function createFloatingDrift({ senderId, content }: CreateDriftInput): Promise<Drift> {
   assertSupabaseConfigured();
 
@@ -19,6 +21,8 @@ export async function createFloatingDrift({ senderId, content }: CreateDriftInpu
     content,
     status: 'floating',
     current_receiver_id: null,
+    delivered_at: null,
+    expires_at: null,
   };
 
   const { data, error } = await supabase.from('drifts').insert(drift).select('*').single();
@@ -32,6 +36,8 @@ export async function createFloatingDrift({ senderId, content }: CreateDriftInpu
 
 export async function getRandomFloatingDriftForReceiver(receiverId: string): Promise<Drift | null> {
   assertSupabaseConfigured();
+
+  await recycleExpiredDeliveredDrifts();
 
   const blockedUserIds = await getBlockedUserIds(receiverId);
 
@@ -58,9 +64,13 @@ export async function getRandomFloatingDriftForReceiver(receiverId: string): Pro
 }
 
 export async function markDriftDelivered(driftId: string, receiverId: string): Promise<Drift> {
+  const deliveredAt = new Date();
+  const expiresAt = new Date(deliveredAt.getTime() + DRIFT_EXPIRATION_HOURS * 60 * 60 * 1000);
   const update: DriftUpdate = {
     status: 'delivered',
     current_receiver_id: receiverId,
+    delivered_at: deliveredAt.toISOString(),
+    expires_at: expiresAt.toISOString(),
   };
 
   const { data, error } = await supabase
@@ -86,6 +96,8 @@ export async function passDrift(driftId: string, receiverId: string): Promise<vo
   const update: DriftUpdate = {
     status: 'floating',
     current_receiver_id: null,
+    delivered_at: null,
+    expires_at: null,
   };
 
   const { error } = await supabase
@@ -103,6 +115,7 @@ export async function keepDrift(drift: Drift, receiverId: string): Promise<Match
   const driftUpdate: DriftUpdate = {
     status: 'kept',
     current_receiver_id: receiverId,
+    expires_at: null,
   };
 
   const { error: driftError } = await supabase
@@ -128,4 +141,26 @@ export async function keepDrift(drift: Drift, receiverId: string): Promise<Match
   }
 
   return data;
+}
+
+export async function recycleExpiredDeliveredDrifts(): Promise<void> {
+  assertSupabaseConfigured();
+
+  const now = new Date().toISOString();
+  const update: DriftUpdate = {
+    status: 'floating',
+    current_receiver_id: null,
+    delivered_at: null,
+    expires_at: null,
+  };
+
+  const { error } = await supabase
+    .from('drifts')
+    .update(update)
+    .eq('status', 'delivered')
+    .lt('expires_at', now);
+
+  if (error) {
+    throw error;
+  }
 }

@@ -19,6 +19,8 @@ export type Drift = {
   status: DriftStatus;
   current_receiver_id: string | null;
   created_at: string;
+  delivered_at: string | null;
+  expires_at: string | null;
 };
 
 export type Match = {
