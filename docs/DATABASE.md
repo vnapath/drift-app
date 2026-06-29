@@ -39,6 +39,10 @@ Drift status values: `floating`, `delivered`, `kept`, `passed`, `expired`.
 - A passed Drift becomes available again.
 - Chat messages require an existing match.
 
+## Required Drift Policies
+
+Incoming Drift needs update access on `drifts` so a receiver can mark a floating Drift as delivered, pass it back to floating, or keep it. Without this policy, Supabase may return no updated row when the app tries to deliver a Drift.
+
 ## Future Safety And Expiration Support
 
 - Add `blocks` so reported users can be hidden automatically.

@@ -64,10 +64,14 @@ export async function markDriftDelivered(driftId: string, receiverId: string): P
     .eq('id', driftId)
     .eq('status', 'floating')
     .select('*')
-    .single();
+    .maybeSingle();
 
   if (error) {
     throw error;
+  }
+
+  if (!data) {
+    throw new Error('This Drift could not be delivered. It may already be claimed, or the database update policy is missing.');
   }
 
   return data;
