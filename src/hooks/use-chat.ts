@@ -6,6 +6,7 @@ import {
   createMessage,
   getMatchForUser,
   getMessagesForMatch,
+  subscribeToMatchMessages,
   type ChatMatch,
 } from '@/services/chat-service';
 import type { Message } from '@/types/database';
@@ -54,6 +55,16 @@ export function useChat(matchId: string | null) {
     loadChat();
   }, [loadChat]);
 
+  useEffect(() => {
+    if (!matchId || !match) {
+      return undefined;
+    }
+
+    return subscribeToMatchMessages(matchId, (message) => {
+      setMessages((currentMessages) => appendUniqueMessage(currentMessages, message));
+    });
+  }, [match, matchId]);
+
   function updateContent(nextContent: string) {
     setContent(nextContent);
 
@@ -79,7 +90,7 @@ export function useChat(matchId: string | null) {
 
     try {
       const message = await createMessage(matchId, user.id, trimmedContent);
-      setMessages((currentMessages) => [...currentMessages, message]);
+      setMessages((currentMessages) => appendUniqueMessage(currentMessages, message));
       setContent('');
     } catch (sendError) {
       setError(getErrorMessage(sendError, 'Could not send message.'));
@@ -100,4 +111,15 @@ export function useChat(matchId: string | null) {
     sendMessage,
     updateContent,
   };
+}
+
+function appendUniqueMessage(messages: Message[], message: Message): Message[] {
+  if (messages.some((currentMessage) => currentMessage.id === message.id)) {
+    return messages;
+  }
+
+  return [...messages, message].sort(
+    (firstMessage, secondMessage) =>
+      new Date(firstMessage.created_at).getTime() - new Date(secondMessage.created_at).getTime(),
+  );
 }

@@ -100,3 +100,30 @@ export async function createMessage(matchId: string, senderId: string, content: 
 
   return data;
 }
+
+export function subscribeToMatchMessages(
+  matchId: string,
+  onMessage: (message: Message) => void,
+): () => void {
+  assertSupabaseConfigured();
+
+  const channel = supabase
+    .channel(`match-messages:${matchId}`)
+    .on(
+      'postgres_changes',
+      {
+        event: 'INSERT',
+        schema: 'public',
+        table: 'messages',
+        filter: `match_id=eq.${matchId}`,
+      },
+      (payload) => {
+        onMessage(payload.new as Message);
+      },
+    )
+    .subscribe();
+
+  return () => {
+    supabase.removeChannel(channel);
+  };
+}
