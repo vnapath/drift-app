@@ -47,6 +47,14 @@ export type Report = {
   created_at: string;
 };
 
+export type Block = {
+  id: string;
+  blocker_id: string;
+  blocked_user_id: string;
+  reason: string | null;
+  created_at: string;
+};
+
 export type Database = {
   public: {
     Tables: {
@@ -83,6 +91,12 @@ export type Database = {
         Row: Report;
         Insert: Omit<Report, 'id' | 'created_at'> & { id?: string; created_at?: string };
         Update: Partial<Omit<Report, 'id' | 'created_at'>>;
+        Relationships: [];
+      };
+      blocks: {
+        Row: Block;
+        Insert: Omit<Block, 'id' | 'created_at'> & { id?: string; created_at?: string };
+        Update: Partial<Omit<Block, 'id' | 'created_at'>>;
         Relationships: [];
       };
     };

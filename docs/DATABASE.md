@@ -9,6 +9,7 @@ Supabase Postgres is the system of record for profiles, drifts, matches, message
 - `matches`: accepted Drift connections between two users.
 - `messages`: chat messages within a match.
 - `reports`: safety reports tied to users, drifts, or matches.
+- `blocks`: one-way user blocks created after reports or explicit blocking.
 
 ## Profiles
 
@@ -45,6 +46,15 @@ Incoming Drift needs update access on `drifts` so a receiver can mark a floating
 
 ## Future Safety And Expiration Support
 
-- Add `blocks` so reported users can be hidden automatically.
 - Add report-driven hiding for Drift content after misconduct reports.
 - Add `expires_at`, `delivered_at`, or equivalent delivery timing fields for the 48-hour Drift expiration rule.
+
+## Blocks
+
+Fields:
+
+- `id`: block id.
+- `blocker_id`: user creating the block.
+- `blocked_user_id`: user being blocked.
+- `reason`: optional reason, with `misconduct` used for MVP reports.
+- `created_at`: creation timestamp.

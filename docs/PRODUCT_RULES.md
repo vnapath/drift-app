@@ -32,6 +32,8 @@ These decisions are source-of-truth product rules for current MVP work.
 - Reported users should be blocked automatically.
 - Reported Drift content should disappear immediately.
 - Future database support should add `blocks` and report-driven hiding/blocking behavior.
+- MVP reporting uses a fixed `misconduct` reason.
+- Admin moderation remains manual in Supabase until a later milestone.
 
 ## Tone And Brand
 

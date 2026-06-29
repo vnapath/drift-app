@@ -15,6 +15,7 @@ import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { MaxContentWidth, Spacing } from '@/constants/theme';
 import { useChat } from '@/hooks/use-chat';
+import { useReportMatch } from '@/hooks/use-report-match';
 import { useTheme } from '@/hooks/use-theme';
 
 export function ChatScreen() {
@@ -31,6 +32,7 @@ export function ChatScreen() {
     sendMessage,
     updateContent,
   } = useChat(matchId ?? null);
+  const { reported, reporting, reportError, reportMatch } = useReportMatch(currentUserId, match);
 
   return (
     <ThemedView style={styles.root}>
@@ -113,19 +115,27 @@ export function ChatScreen() {
                   })}
                 </ScrollView>
 
-                {error ? (
+                {reported ? (
+                  <ThemedView style={styles.safetyBox}>
+                    <ThemedText type="smallBold" style={styles.safetyText}>
+                      Report sent. This signal is now blocked from your current.
+                    </ThemedText>
+                  </ThemedView>
+                ) : null}
+
+                {error || reportError ? (
                   <ThemedView style={styles.errorBox}>
                     <ThemedText type="smallBold" style={styles.errorText}>
-                      {error}
+                      {error ?? reportError}
                     </ThemedText>
                   </ThemedView>
                 ) : null}
 
                 <View style={styles.composer}>
                   <TextInput
-                    editable={!sending}
+                    editable={!sending && !reported}
                     onChangeText={updateContent}
-                    placeholder="Send a quiet note"
+                    placeholder={reported ? 'This chat has been blocked' : 'Send a quiet note'}
                     placeholderTextColor={theme.textSecondary}
                     style={[
                       styles.input,
@@ -139,7 +149,7 @@ export function ChatScreen() {
                   />
                   <Pressable
                     accessibilityRole="button"
-                    disabled={sending}
+                    disabled={sending || reported}
                     onPress={sendMessage}
                     style={({ pressed }) => [
                       styles.sendButton,
@@ -155,6 +165,32 @@ export function ChatScreen() {
                     )}
                   </Pressable>
                 </View>
+
+                <ThemedView type="backgroundElement" style={styles.safetyPanel}>
+                  <View style={styles.safetyCopy}>
+                    <ThemedText type="smallBold">Safety</ThemedText>
+                    <ThemedText type="small" themeColor="textSecondary">
+                      Report misconduct and block this anonymous match.
+                    </ThemedText>
+                  </View>
+                  <Pressable
+                    accessibilityRole="button"
+                    disabled={reporting || reported}
+                    onPress={reportMatch}
+                    style={({ pressed }) => [
+                      styles.reportButton,
+                      { borderColor: theme.backgroundSelected },
+                      (pressed || reporting || reported) && styles.pressed,
+                    ]}>
+                    {reporting ? (
+                      <ActivityIndicator color={theme.text} />
+                    ) : (
+                      <ThemedText type="smallBold">
+                        {reported ? 'Reported' : 'Report misconduct'}
+                      </ThemedText>
+                    )}
+                  </Pressable>
+                </ThemedView>
               </>
             ) : null}
           </View>
@@ -260,6 +296,30 @@ const styles = StyleSheet.create({
   },
   errorText: {
     color: '#991B1B',
+  },
+  safetyPanel: {
+    borderRadius: Spacing.two,
+    padding: Spacing.three,
+    gap: Spacing.three,
+  },
+  safetyCopy: {
+    gap: Spacing.one,
+  },
+  reportButton: {
+    minHeight: 48,
+    borderRadius: Spacing.two,
+    borderWidth: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: Spacing.three,
+  },
+  safetyBox: {
+    borderRadius: Spacing.two,
+    padding: Spacing.three,
+    backgroundColor: '#DBEAFE',
+  },
+  safetyText: {
+    color: '#1E3A8A',
   },
   pressed: {
     opacity: 0.72,
