@@ -55,3 +55,18 @@ export async function reportMisconductAndBlock({
 
   return { report, block };
 }
+
+export async function getBlockedUserIds(userId: string): Promise<string[]> {
+  assertSupabaseConfigured();
+
+  const { data, error } = await supabase
+    .from('blocks')
+    .select('blocked_user_id')
+    .eq('blocker_id', userId);
+
+  if (error) {
+    throw error;
+  }
+
+  return data.map((block) => block.blocked_user_id);
+}

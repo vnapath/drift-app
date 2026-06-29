@@ -1,4 +1,5 @@
 import { assertSupabaseConfigured, supabase } from '@/lib/supabase';
+import { getBlockedUserIds } from '@/services/report-service';
 import type { Database, Drift, Match } from '@/types/database';
 
 type DriftInsert = Database['public']['Tables']['drifts']['Insert'];
@@ -32,6 +33,8 @@ export async function createFloatingDrift({ senderId, content }: CreateDriftInpu
 export async function getRandomFloatingDriftForReceiver(receiverId: string): Promise<Drift | null> {
   assertSupabaseConfigured();
 
+  const blockedUserIds = await getBlockedUserIds(receiverId);
+
   const { data, error } = await supabase
     .from('drifts')
     .select('*')
@@ -43,13 +46,15 @@ export async function getRandomFloatingDriftForReceiver(receiverId: string): Pro
     throw error;
   }
 
-  if (data.length === 0) {
+  const availableDrifts = data.filter((drift) => !blockedUserIds.includes(drift.sender_id));
+
+  if (availableDrifts.length === 0) {
     return null;
   }
 
-  const randomIndex = Math.floor(Math.random() * data.length);
+  const randomIndex = Math.floor(Math.random() * availableDrifts.length);
 
-  return data[randomIndex];
+  return availableDrifts[randomIndex];
 }
 
 export async function markDriftDelivered(driftId: string, receiverId: string): Promise<Drift> {
