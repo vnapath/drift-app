@@ -73,8 +73,8 @@ export function ProfileSetupScreen() {
 
     const parsedAge = trimmedAge ? Number(trimmedAge) : null;
 
-    if (parsedAge !== null && (!Number.isInteger(parsedAge) || parsedAge < 13 || parsedAge > 120)) {
-      setError('Age must be a whole number between 13 and 120.');
+    if (parsedAge !== null && (!Number.isInteger(parsedAge) || parsedAge < 16 || parsedAge > 120)) {
+      setError('Age must be a whole number between 16 and 120.');
       return;
     }
 
